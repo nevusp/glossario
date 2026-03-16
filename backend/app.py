@@ -32,8 +32,12 @@ def root():
     return {"message": "Glossário API online"}
 
 @app.get("/terms")
-def get_terms(limit: int = 10, offset: int = 0):
+def get_terms(limit: int = 10, offset: int = 0, search: str = ""):
     df = load_data()
+
+    if search:
+        df = df[df["WORD"].str.contains(search, case=False, na=False)]
+
     df = df.sort_values(by="WORD", key=lambda col: col.map(normalize))
     total = len(df)
     result = df.iloc[offset:offset+limit]

@@ -1,5 +1,5 @@
 const API =
-    window.location.hostname === "localhost"
+    window.location.hostname === ""
     ? "http://localhost:5050"
     : "https://glossario.onrender.com"
 
@@ -24,17 +24,11 @@ async function carregarTermos(){
 
     totalPaginas = Math.ceil(data.total / limite)
 
-    renderizar(data.data)
+    termos = data.data
+
+    renderizar(termos)
 
     atualizarPaginacao()
-}
-
-// mostra os 10 primeiros
-function mostrarPrimeiros(){
-
-    const primeiros = termos.slice(0,10)
-
-    renderizar(primeiros)
 }
 
 // renderiza resultados
@@ -89,24 +83,22 @@ function renderizar(lista){
     })
 }
 
-// typeahead
-function typeahead(){
+async function buscarSugestoes(){
 
-    const texto = document.getElementById("search").value.toLowerCase()
+    const texto = document.getElementById("search").value
 
-    if(texto.length === 0){
-        mostrarPrimeiros()
+    if(texto.length < 1){
+        document.getElementById("suggestions").innerHTML = ""
         return
     }
 
-    const filtrados = termos.filter(t =>
-        t.WORD.toLowerCase().includes(texto)
-    )
+    const res = await fetch(`${API}/terms?search=${texto}&limit=10`)
 
-    mostrarSugestoes(filtrados.slice(0,10))
+    const data = await res.json()
+
+    mostrarSugestoes(data.data)
 }
 
-// mostrar sugestões
 function mostrarSugestoes(lista){
 
     const div = document.getElementById("suggestions")
@@ -116,19 +108,37 @@ function mostrarSugestoes(lista){
     lista.forEach(term => {
 
         div.innerHTML += `
-            <div class="suggestion" onclick="selecionar('${term.WORD}')">
-                ${term.WORD}
-            </div>
+        <div class="suggestion" onclick="selecionar('${term.WORD}')">
+            ${term.WORD}
+        </div>
         `
     })
 }
 
-// selecionar termo da lista
 function selecionar(word){
 
-    const termo = termos.find(t => t.WORD === word)
+    document.getElementById("search").value = word
 
-    renderizar([termo])
+    document.getElementById("suggestions").innerHTML = ""
+
+    buscarTermos()
+}
+
+async function buscarTermos(){
+
+    const texto = document.getElementById("search").value
+
+    if(texto.length === 0){
+        paginaAtual = 1
+        carregarTermos()
+        return
+    }
+
+    const res = await fetch(`${API}/terms?search=${texto}`)
+
+    const data = await res.json()
+
+    renderizar(data.data)
 
     document.getElementById("suggestions").innerHTML = ""
 }
