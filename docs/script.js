@@ -1,9 +1,7 @@
-const API = "http://localhost:5050"
-
-//const API =
-//    window.location.hostname === "localhost"
-//    ? "http://localhost:5050"
-//    : "https://glossario.onrender.com"
+const API =
+    window.location.hostname === "localhost"
+    ? "http://localhost:5050"
+    : "https://glossario.onrender.com"
 
 console.log(window.location.hostname)
 console.log("API:", API)
