@@ -1,0 +1,109 @@
+body{
+    font-family: Arial;
+    margin:40px;
+}
+
+input{
+    width:400px;
+    margin-top:5px;
+}
+
+.card{
+    border:1px solid #ddd;
+    padding:15px;
+    margin-bottom:10px;
+    border-radius:6px;
+}
+
+.suggestion{
+    padding:5px;
+    cursor:pointer;
+}
+
+.suggestion:hover{
+    background:#f0f0f0;
+}
+
+.card-header{
+    cursor:pointer;
+}
+
+.card-body{
+    margin-top:10px;
+}
+
+.hidden{
+    display:none;
+}
+
+.arrow{
+    font-size:14px;
+    margin-right:6px;
+}
+
+#form-container{
+    border:1px solid #ddd;
+    padding:20px;
+    margin-top:20px;
+    background:#f9f9f9;
+}
+
+textarea{
+    width:400px;
+    height:70px;
+}
+
+button{
+    margin-top:10px;
+}
+
+.card-actions{
+    margin-top:15px;
+}
+
+.card-actions button{
+    margin-right:10px;
+}
+
+.modal{
+
+    position: fixed;
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background: rgba(0,0,0,0.5);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.modal-content{
+
+    background:white;
+    padding:25px;
+
+    border-radius:8px;
+
+    width:500px;
+    max-height:90vh;
+
+    overflow-y:auto;
+
+}
+
+.close{
+
+    float:right;
+    font-size:22px;
+    cursor:pointer;
+
+}
+
+.hidden{
+    display:none;
+}

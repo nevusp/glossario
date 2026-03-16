@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Glossário Interdisciplinar</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+
+        <h1>Glossário Interdisciplinar</h1>
+
+        <button onclick="abrirFormulario()">Adicionar Palavra</button>
+
+        <div id="modal" class="modal hidden">
+
+            <div class="modal-content">
+          
+              <span class="close" onclick="fecharFormulario()">&times;</span>          
+              <h2 id="modal-title">Novo termo</h2>          
+              <input id="WORD" placeholder="Palavra"><br>
+              <input id="AREA_PRIMARY" placeholder="Área"><br>
+              <input id="SUBAREA_PRIMARY" placeholder="Subárea"><br>
+              <input id="CONCEPT_TYPE" placeholder="Tipo de conceito"><br>
+              <textarea id="DESCRIPTION_GENERAL" placeholder="Descrição geral"></textarea><br>
+              <textarea id="DESCRIPTION_SOCIAL_SCIENCES" placeholder="Ciências Sociais"></textarea><br>
+              <textarea id="DESCRIPTION_DATA_SCIENCE" placeholder="Ciência de Dados"></textarea><br>
+              <textarea id="CROSS_AREA_RELATION" placeholder="Relação entre áreas"></textarea><br>
+              <textarea id="DATA_OPERATIONALIZATION" placeholder="Operacionalização em dados"></textarea><br>
+              <textarea id="EXAMPLES" placeholder="Exemplos"></textarea><br>
+              <input id="RELATED_TERMS" placeholder="Termos relacionados"><br>
+              <input id="REFERENCES" placeholder="Referências"><br>
+          
+              <button onclick="salvarTermo()">Salvar</button>
+            </div>
+          
+          </div>
+
+        
+        <input 
+            id="search"
+            type="text"
+            placeholder="Digite uma palavra..."
+            oninput="typeahead()"
+        />
+        <div id="suggestions"></div>
+
+        <hr>
+
+        <div id="results"></div>
+
+        <script src="script.js"></script>
+
+    </body>
+</html>
