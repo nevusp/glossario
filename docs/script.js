@@ -1,18 +1,34 @@
-const API =
-    window.location.hostname === "localhost"
-    ? "http://localhost:5050"
-    : "https://glossario.onrender.com"
+const API = "http://localhost:5050"
+
+//const API =
+//    window.location.hostname === "localhost"
+//    ? "http://localhost:5050"
+//    : "https://glossario.onrender.com"
+
+console.log(window.location.hostname)
+console.log("API:", API)
 
 let termos = []
 let termoEditando = null
 
+let paginaAtual = 1
+const limite = 10
+let totalPaginas = 1
+
 // carrega os dados quando a página abre
 async function carregarTermos(){
 
-    const res = await fetch(`${API}/terms?limit=1000`)
-    termos = await res.json()
+    const offset = (paginaAtual - 1) * limite
 
-    mostrarPrimeiros()
+    const res = await fetch(`${API}/terms?limit=${limite}&offset=${offset}`)
+
+    const data = await res.json()
+
+    totalPaginas = Math.ceil(data.total / limite)
+
+    renderizar(data.data)
+
+    atualizarPaginacao()
 }
 
 // mostra os 10 primeiros
@@ -268,6 +284,94 @@ function fecharFormulario(){
 
     document.getElementById("modal").classList.add("hidden")
 
+}
+
+function atualizarPaginacao(total){
+
+    const totalPaginas = Math.ceil(total / limite)
+
+    const div = document.getElementById("paginacao")
+
+    div.innerHTML = ""
+
+    for(let i=1;i<=totalPaginas;i++){
+
+        div.innerHTML += `
+        <button onclick="irParaPagina(${i})"
+        ${i===paginaAtual ? "style='font-weight:bold'" : ""}>
+        ${i}
+        </button>
+        `
+    }
+}
+
+function irParaPagina(p){
+
+    paginaAtual = p
+
+    carregarTermos()
+
+}
+
+function paginaAnterior(){
+
+    if(paginaAtual > 1){
+
+        paginaAtual--
+
+        carregarTermos()
+
+    }
+
+}
+
+function proximaPagina(){
+
+    if(paginaAtual < totalPaginas){
+
+        paginaAtual++
+
+        carregarTermos()
+
+    }
+
+}
+
+function atualizarPaginacao(){
+
+    const div = document.getElementById("paginacao")
+
+    div.innerHTML = ""
+
+    // botão anterior
+    div.innerHTML += `
+    <button onclick="paginaAnterior()" 
+    ${paginaAtual === 1 ? "disabled" : ""}>
+    ◀ Anterior
+    </button>
+    `
+
+    // janela de páginas (máx 5)
+    const inicio = Math.max(1, paginaAtual - 2)
+    const fim = Math.min(totalPaginas, paginaAtual + 2)
+
+    for(let i=inicio;i<=fim;i++){
+
+        div.innerHTML += `
+        <button onclick="irParaPagina(${i})"
+        ${i===paginaAtual ? "class='pagina-ativa'" : ""}>
+        ${i}
+        </button>
+        `
+    }
+
+    // botão próximo
+    div.innerHTML += `
+    <button onclick="proximaPagina()"
+    ${paginaAtual === totalPaginas ? "disabled" : ""}>
+    Próximo ▶
+    </button>
+    `
 }
 
 window.onclick = function(event){

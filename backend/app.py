@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import pandas as pd
+import unicodedata
 from pathlib import Path
 
 app = FastAPI()
@@ -15,6 +16,9 @@ app.add_middleware(
 
 DATA_PATH = Path("data/glossario.csv")
 
+def normalize(text):
+    return unicodedata.normalize("NFKD", text).encode("ASCII", "ignore").decode("utf-8").lower()
+
 def load_data():
     df = pd.read_csv(DATA_PATH)
     df = df.fillna("")
@@ -28,9 +32,18 @@ def root():
     return {"message": "Glossário API online"}
 
 @app.get("/terms")
-def get_terms(limit: int = 10):
+def get_terms(limit: int = 10, offset: int = 0):
     df = load_data()
-    return df.head(limit).to_dict(orient="records")
+    df = df.sort_values(by="WORD", key=lambda col: col.map(normalize))
+    total = len(df)
+    result = df.iloc[offset:offset+limit]
+
+    return {
+        "total": total,
+        "limit": limit,
+        "offset": offset,
+        "data": result.to_dict(orient="records")
+    }
 
 @app.get("/terms/{word}")
 def get_term(word: str):

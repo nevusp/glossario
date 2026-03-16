@@ -107,3 +107,24 @@ button{
 .hidden{
     display:none;
 }
+
+#paginacao{
+    margin-top:20px;
+}
+
+#paginacao button{
+
+    margin:3px;
+    padding:6px 10px;
+
+    cursor:pointer;
+
+}
+
+.pagina-ativa{
+
+    font-weight:bold;
+    background:#333;
+    color:white;
+
+}
