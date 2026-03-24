@@ -128,3 +128,14 @@ button{
     color:white;
 
 }
+
+#loading {
+    margin: 15px 0;
+    font-size: 16px;
+}
+
+.info-api {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 10px;
+}

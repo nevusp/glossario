@@ -16,19 +16,45 @@ let totalPaginas = 1
 // carrega os dados quando a página abre
 async function carregarTermos(){
 
-    const offset = (paginaAtual - 1) * limite
+    const loading = document.getElementById("loading")
 
-    const res = await fetch(`${API}/terms?limit=${limite}&offset=${offset}`)
+    // 🔄 mostra loading
+    loading.classList.remove("hidden")
+    loading.innerHTML = "🔄 Carregando termos..."
 
-    const data = await res.json()
+    // ⏳ detecta atraso (cold start)
+    const delayTimer = setTimeout(() => {
 
-    totalPaginas = Math.ceil(data.total / limite)
+        if(!loading.classList.contains("hidden")){
+            loading.innerHTML =
+                "⏳ O servidor está iniciando... aguarde alguns segundos."
+        }
 
-    termos = data.data
+    }, 5000)
 
-    renderizar(termos)
+    try{
 
-    atualizarPaginacao()
+        const offset = (paginaAtual - 1) * limite
+        const res = await fetch(`${API}/terms?limit=${limite}&offset=${offset}`)
+        const data = await res.json()
+        totalPaginas = Math.ceil(data.total / limite)
+        termos = data.data
+        renderizar(termos)
+        atualizarPaginacao()
+
+    }catch(error){
+
+        console.error(error)
+
+        loading.innerHTML =
+            "❌ Erro ao carregar dados. Tente novamente em alguns segundos."
+
+        return
+    }
+
+    // 🧹 limpa timer e esconde loading
+    clearTimeout(delayTimer)
+    loading.classList.add("hidden")
 }
 
 // renderiza resultados
