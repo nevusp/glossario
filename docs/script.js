@@ -69,7 +69,7 @@ function renderizar(lista){
                 <p><b>Termos relacionados:</b><br>
                 ${term.RELATED_TERMS}</p>
                 <p><b>Referências:</b><br>
-                ${term.REFERENCES}</p>
+                ${term.REFERENCES_SOURCE}</p>
 
                 <div class="card-actions">
                     <button onclick="editarTermo('${term.WORD}')">🖋 Editar</button>
@@ -180,7 +180,7 @@ async function salvarTermo(){
         DATA_OPERATIONALIZATION: document.getElementById("DATA_OPERATIONALIZATION").value,
         EXAMPLES: document.getElementById("EXAMPLES").value,
         RELATED_TERMS: document.getElementById("RELATED_TERMS").value,
-        REFERENCES: document.getElementById("REFERENCES").value
+        REFERENCES_SOURCE: document.getElementById("REFERENCES_SOURCE").value
     }
 
     let url = `${API}/terms`
@@ -247,7 +247,7 @@ async function editarTermo(word){
     document.getElementById("DATA_OPERATIONALIZATION").value = term.DATA_OPERATIONALIZATION
     document.getElementById("EXAMPLES").value = term.EXAMPLES
     document.getElementById("RELATED_TERMS").value = term.RELATED_TERMS
-    document.getElementById("REFERENCES").value = term.REFERENCES
+    document.getElementById("REFERENCES_SOURCE").value = term.REFERENCES_SOURCE
 
 }
 
@@ -278,7 +278,7 @@ function limparFormulario(){
         "DATA_OPERATIONALIZATION",
         "EXAMPLES",
         "RELATED_TERMS",
-        "REFERENCES"
+        "REFERENCES_SOURCE"
 
     ]
 
