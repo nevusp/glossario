@@ -139,3 +139,10 @@ button{
     color: #555;
     margin-bottom: 10px;
 }
+
+.descricao-glossario {
+    font-size: 16px;
+    color: #555;
+    max-width: 700px;
+    margin-bottom: 20px;
+}
